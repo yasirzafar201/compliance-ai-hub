@@ -913,7 +913,8 @@
         localStorage.setItem("clauseverify_auth_token", authToken);
 
         document.getElementById('userNameHeader').innerText = currentUser.full_name;
-        document.getElementById('userWorkspaceHeader').innerText = currentUser.workspace.name;
+        const plan = (currentUser.workspace.plan || 'growth').toUpperCase();
+        document.getElementById('userWorkspaceHeader').innerHTML = `${currentUser.workspace.name} • <span class="text-amber-400 font-bold font-mono">${plan}</span>`;
         const initials = currentUser.full_name.split(' ').map(n => n[0]).join('');
         document.getElementById('userAvatar').innerText = initials;
       } catch (err) {
@@ -980,6 +981,11 @@
         });
         const data = await res.json();
         currentActivePlan = planId;
+        if (currentUser && currentUser.workspace) {
+          currentUser.workspace.plan = planId;
+          const planText = planId.toUpperCase();
+          document.getElementById('userWorkspaceHeader').innerHTML = `${currentUser.workspace.name} • <span class="text-amber-400 font-bold font-mono">${planText}</span>`;
+        }
         
         alert(`🎉 Plan Activated!\n\n${data.message}\nAudit log updated with verified billing event.`);
         closePricingModal();
@@ -1483,7 +1489,16 @@ Upon written demand from Discloser, Recipient shall permanently destroy or retur
       }
     }
 
-    function openQuestionnaireModal() { document.getElementById('questionnaireModal').classList.remove('hidden'); }
+    function openQuestionnaireModal() {
+      const plan = (currentUser && currentUser.workspace && currentUser.workspace.plan) ? currentUser.workspace.plan.toLowerCase() : 'growth';
+      if (plan === 'starter') {
+        if (confirm("🔒 Tier Gated Feature\n\n1-Click Vendor Security Questionnaire Auto-Fill is available on Growth ($799/mo) and Enterprise tiers.\n\nWould you like to upgrade your plan now?")) {
+          openPricingModal();
+        }
+        return;
+      }
+      document.getElementById('questionnaireModal').classList.remove('hidden');
+    }
     function closeQuestionnaireModal() { document.getElementById('questionnaireModal').classList.add('hidden'); }
 
     function loadSampleQuestions() {
@@ -1604,6 +1619,13 @@ Upon written demand from Discloser, Recipient shall permanently destroy or retur
     let cloudData = null;
 
     async function openCloudModal() {
+      const plan = (currentUser && currentUser.workspace && currentUser.workspace.plan) ? currentUser.workspace.plan.toLowerCase() : 'growth';
+      if (plan === 'starter') {
+        if (confirm("🔒 Tier Gated Feature\n\nGoogle Drive & SharePoint Live Sync is available on Growth ($799/mo) and Enterprise tiers.\n\nWould you like to upgrade your plan now?")) {
+          openPricingModal();
+        }
+        return;
+      }
       document.getElementById('cloudModal').classList.remove('hidden');
       try {
         const res = await fetch('/api/integrations/cloud-drives', { headers: getAuthHeaders() });
@@ -1671,7 +1693,16 @@ Upon written demand from Discloser, Recipient shall permanently destroy or retur
     }
 
     // Slack Bot Simulator Handlers
-    function openSlackModal() { document.getElementById('slackModal').classList.remove('hidden'); }
+    function openSlackModal() {
+      const plan = (currentUser && currentUser.workspace && currentUser.workspace.plan) ? currentUser.workspace.plan.toLowerCase() : 'growth';
+      if (plan === 'starter') {
+        if (confirm("🔒 Tier Gated Feature\n\nSlack Bot Integration (/clauseverify) is available on Growth ($799/mo) and Enterprise tiers.\n\nWould you like to upgrade your plan now?")) {
+          openPricingModal();
+        }
+        return;
+      }
+      document.getElementById('slackModal').classList.remove('hidden');
+    }
     function closeSlackModal() { document.getElementById('slackModal').classList.add('hidden'); }
 
     async function runSlackSimulator() {

@@ -82,12 +82,12 @@ def get_current_user(authorization: Optional[str] = Header(None)) -> Dict[str, A
 
     user = None
     if token:
-        cursor.execute("SELECT u.*, w.name as workspace_name, w.domain as workspace_domain FROM users u JOIN workspaces w ON u.workspace_id = w.id WHERE u.auth_token = ?", (token,))
+        cursor.execute("SELECT u.*, w.name as workspace_name, w.domain as workspace_domain, w.plan as workspace_plan FROM users u JOIN workspaces w ON u.workspace_id = w.id WHERE u.auth_token = ?", (token,))
         user = cursor.fetchone()
 
     # Default fallback to Sarah Chen (Acme Global) if no token provided
     if not user:
-        cursor.execute("SELECT u.*, w.name as workspace_name, w.domain as workspace_domain FROM users u JOIN workspaces w ON u.workspace_id = w.id WHERE u.email = 'sarah.chen@acme.com'")
+        cursor.execute("SELECT u.*, w.name as workspace_name, w.domain as workspace_domain, w.plan as workspace_plan FROM users u JOIN workspaces w ON u.workspace_id = w.id WHERE u.email = 'sarah.chen@acme.com'")
         user = cursor.fetchone()
 
     conn.close()
@@ -104,6 +104,7 @@ def get_current_user(authorization: Optional[str] = Header(None)) -> Dict[str, A
 @app.get("/api/auth/me")
 async def get_me(current_user: Dict[str, Any] = Depends(get_current_user)):
     """Returns current authenticated user and isolated workspace profile."""
+    plan = (current_user.get("workspace_plan") or "growth").lower()
     return {
         "user_id": current_user["id"],
         "email": current_user["email"],
@@ -113,7 +114,8 @@ async def get_me(current_user: Dict[str, Any] = Depends(get_current_user)):
         "workspace": {
             "id": current_user["workspace_id"],
             "name": current_user["workspace_name"],
-            "domain": current_user["workspace_domain"]
+            "domain": current_user["workspace_domain"],
+            "plan": plan
         }
     }
 
@@ -275,6 +277,12 @@ class CloudSyncRequest(BaseModel):
 @app.post("/api/integrations/cloud-sync")
 async def sync_cloud_files(req: CloudSyncRequest, current_user: Dict[str, Any] = Depends(get_current_user)):
     """Syncs a folder from Google Drive or SharePoint into the workspace."""
+    workspace_plan = (current_user.get("workspace_plan") or "growth").lower()
+    if workspace_plan == "starter":
+        raise HTTPException(
+            status_code=403,
+            detail="⚡ Plan Gated: Cloud Drive Sync (Google Drive & SharePoint) requires a Growth ($799/mo) or Enterprise plan. Please upgrade in the Pricing menu."
+        )
     files = integrations.sync_cloud_folder(req.provider, req.folder_index)
     if not files:
         raise HTTPException(status_code=400, detail="Cloud folder empty or invalid provider")
@@ -329,6 +337,12 @@ class SlackCommandRequest(BaseModel):
 @app.post("/api/integrations/slack/command")
 async def handle_slack_command(req: SlackCommandRequest, current_user: Dict[str, Any] = Depends(get_current_user)):
     """Handles Slack slash command (/clauseverify) and returns Slack Block Kit formatted response."""
+    workspace_plan = (current_user.get("workspace_plan") or "growth").lower()
+    if workspace_plan == "starter":
+        raise HTTPException(
+            status_code=403,
+            detail="⚡ Plan Gated: Slack Bot Integration (/clauseverify) requires a Growth ($799/mo) or Enterprise tier."
+        )
     from server import search_and_verify
     res = search_and_verify(req.text, req.document_id, "Slack User (@alex_sales)")
     citation = res["citations"][0] if res.get("citations") and len(res["citations"]) > 0 else {}
@@ -339,12 +353,24 @@ async def handle_slack_command(req: SlackCommandRequest, current_user: Dict[str,
 @app.post("/api/ocr/scan")
 async def scan_physical_document(req: UploadRequest, current_user: Dict[str, Any] = Depends(get_current_user)):
     """OCR Engine: Simulates processing flat scanned paper documents with wet-ink signatures."""
+    workspace_plan = (current_user.get("workspace_plan") or "growth").lower()
+    if workspace_plan in ["starter", "growth"]:
+        raise HTTPException(
+            status_code=403,
+            detail="🔒 Plan Gated: Scanned Xerox and Wet-Ink OCR is an exclusive Enterprise tier capability ($1,999/mo)."
+        )
     ocr_result = integrations.process_scanned_ocr_document(req.title)
     return ocr_result
 
 @app.post("/api/questionnaire")
 async def auto_fill_questionnaire(req: QuestionnaireRequest, current_user: Dict[str, Any] = Depends(get_current_user)):
     """Runs bulk security questionnaire verification."""
+    workspace_plan = (current_user.get("workspace_plan") or "growth").lower()
+    if workspace_plan == "starter":
+        raise HTTPException(
+            status_code=403,
+            detail="⚡ Plan Gated: 1-Click Vendor Security Questionnaire Auto-Fill is available on Growth and Enterprise tiers. Please upgrade in the Pricing menu."
+        )
     from server import process_questionnaire
     results = process_questionnaire(req.questions, req.document_id)
     return results
@@ -445,6 +471,7 @@ async def update_subscription(req: SubscribeRequest, current_user: Dict[str, Any
     conn = get_connection()
     cursor = conn.cursor()
     log_id = str(uuid.uuid4())
+    cursor.execute("UPDATE workspaces SET plan = ? WHERE id = ?", (req.plan_id.lower(), current_user["workspace_id"]))
     cursor.execute("""
     INSERT INTO audit_logs (id, workspace_id, user_name, query, document_id, answer, citations, verified_match, timestamp)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
