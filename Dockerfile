@@ -9,12 +9,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install python dependencies
-RUN pip install --no-cache-dir fastapi uvicorn pydantic python-multipart
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY app.py /app/app.py
 COPY server.py /app/server.py
 COPY database.py /app/database.py
+COPY integrations.py /app/integrations.py
+COPY data /app/data
 COPY static /app/static
 COPY README.md /app/README.md
 
