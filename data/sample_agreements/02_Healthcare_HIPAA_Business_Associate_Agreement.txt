@@ -1,0 +1,15 @@
+BIOCARE HEALTH SYSTEMS — HIPAA BUSINESS ASSOCIATE AGREEMENT (BAA)
+
+This Business Associate Agreement ("BAA") is entered into by and between BioCare Health Systems ("Covered Entity") and MedPulse Diagnostics Inc. ("Business Associate") to satisfy the statutory requirements of the Health Insurance Portability and Accountability Act of 1996 ("HIPAA") and the HITECH Act regulations.
+
+Section 1. Permitted Uses and Disclosures of Protected Health Information (PHI)
+Business Associate may access, receive, and process Protected Health Information (PHI) solely to the minimum extent necessary to perform cloud-based AI medical diagnostics and algorithmic pathology analysis as authorized under the Underlying Clinical Services Agreement. Business Associate shall not de-identify, monetize, or train generalized foundation AI models on Covered Entity patient records.
+
+Section 2. Mandatory Security Incident & Breach Notification Window
+In compliance with 45 CFR § 164.410, Business Associate shall notify Covered Entity in writing of any confirmed or reasonably suspected security incident or Breach of Unsecured PHI without unreasonable delay, and in no event later than seventy-two (72) hours following the initial discovery of such incident. Such notification shall include identified patient record IDs and corrective containment actions.
+
+Section 3. Downstream Subcontractor Obligations
+Business Associate shall require any agent, independent contractor, or cloud infrastructure subcontractor that creates, receives, maintains, or transmits PHI on its behalf to execute a formal Downstream Business Associate Agreement containing contractual safeguards at least as stringent as those set forth in this Agreement.
+
+Section 4. Return and Cryptographic Erasure of Health Records Upon Termination
+Upon expiration or termination of this Agreement for any reason, Business Associate shall, within thirty (30) calendar days, securely return or permanently destroy all PHI in its possession or control in strict conformity with NIST Special Publication 800-88 Revision 1 (Guidelines for Media Sanitization). Business Associate shall deliver an officer-signed Certificate of Destruction confirming zero persistent copies remain.

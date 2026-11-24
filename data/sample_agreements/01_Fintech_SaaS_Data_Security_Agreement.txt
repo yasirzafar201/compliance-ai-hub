@@ -1,0 +1,15 @@
+APEX FINANCIAL TECHNOLOGIES — ENTERPRISE SAAS & DATA SECURITY AGREEMENT
+
+This Enterprise SaaS License and Data Security Agreement ("Agreement") is entered into as of January 15, 2025, by and between Apex Financial Technologies Inc. ("Vendor") and Sentinel Wealth Management LLC ("Customer").
+
+Section 1. Data Sovereignty & Hosting Geographic Restrictions
+All primary financial transaction records, customer personally identifiable information (PII), and associated database backups shall be hosted and processed exclusively within the Amazon Web Services (AWS) US-East (N. Virginia) region. Vendor shall not replicate, transfer, or route Customer financial records to any foreign jurisdiction or off-shore server without obtaining prior express written authorization from Customer's Chief Compliance Officer.
+
+Section 2. Disaster Recovery Commitments, RTO, and RPO
+Vendor maintains a redundant active-passive hot disaster recovery architecture across distinct availability zones. Vendor guarantees a Recovery Time Objective (RTO) of not more than two (2) hours following any catastrophic failover event, and a Recovery Point Objective (RPO) of not more than fifteen (15) minutes of potential transaction data variance. Full disaster recovery drill tests shall be conducted and documented at least semi-annually.
+
+Section 3. Regulatory Examination & Independent Audit Rights
+Customer, together with its authorized regulatory governing bodies (including the Securities and Exchange Commission [SEC] and Financial Industry Regulatory Authority [FINRA]), reserves the absolute right upon ten (10) business days advance written notice to inspect, review, and audit Vendor's operational facilities, information security controls, and annual SOC 2 Type II audit documentation.
+
+Section 4. Cybersecurity Insurance & Indemnification Limits
+Vendor shall continuously maintain during the entire Term of this Agreement: (a) Commercial General Liability Insurance with coverage of not less than $5,000,000 per occurrence, and (b) Dedicated Cyber Risk and Data Breach Liability Insurance with policy limits of not less than $10,000,000 per claim and $20,000,000 in annual aggregate. Evidence of insurance certificates naming Customer as an additional insured shall be provided annually.

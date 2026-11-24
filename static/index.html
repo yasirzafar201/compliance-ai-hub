@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClauseVerify AI — Enterprise Contract Intelligence & Compliance Workspace</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Newsreader"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca'
+            },
+            accent: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    ::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.4); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.7); }
+
+    /* Animated Gold Citation Highlight */
+    @keyframes goldenGlow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5), inset 0 0 12px rgba(245, 158, 11, 0.15);
+        background-color: rgba(254, 240, 138, 0.85);
+      }
+      50% {
+        box-shadow: 0 0 0 10px rgba(245, 158, 11, 0), inset 0 0 18px rgba(245, 158, 11, 0.25);
+        background-color: rgba(253, 230, 138, 0.95);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0), inset 0 0 12px rgba(245, 158, 11, 0.15);
+        background-color: rgba(254, 240, 138, 0.85);
+      }
+    }
+
+    .highlight-active {
+      animation: goldenGlow 2.5s infinite ease-in-out;
+      border: 2px solid #d97706 !important;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .highlight-active::before {
+      content: "VERIFIED CITATION";
+      position: absolute;
+      top: -12px;
+      right: 14px;
+      background: #d97706;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Subtle Glassmorphism */
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 h-screen flex flex-col font-sans overflow-hidden antialiased selection:bg-amber-500 selection:text-slate-950">
+
+  <!-- Ambient Glow Effect in Background -->
+  <div class="fixed top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="h-16 glass-panel border-b border-white/[0.08] px-6 flex items-center justify-between shrink-0 z-30">
+    
+    <!-- Logo & Brand (Clean & Spacious) -->
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-amber-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25 border border-white/20 shrink-0">
+        <span class="text-lg leading-none">§</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="font-extrabold text-base tracking-tight text-white">
+          ClauseVerify<span class="text-amber-400">.ai</span>
+        </span>
+        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold flex items-center space-x-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Zero-Hallucination</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Center Document Selector (Compact & Truncated) -->
+    <div class="flex items-center space-x-2 bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-1.5 shadow-inner max-w-xs truncate">
+      <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <select id="docSelect" onchange="switchDocument(this.value)" class="bg-transparent text-slate-200 text-xs font-semibold focus:outline-none cursor-pointer pr-2 truncate max-w-[200px]">
+        <option value="doc_msa_01" class="bg-slate-900 text-slate-200">Acme Corp Master Services Agreement (MSA)</option>
+        <option value="doc_soc2_02" class="bg-slate-900 text-slate-200">CloudTrust SOC 2 Type II Security Report</option>
+      </select>
+    </div>
+
+    <!-- Right Header Action Tools (Decluttered & Streamlined) -->
+    <div class="flex items-center space-x-2.5">
+      
+      <!-- Primary Action: Auto-Fill Questionnaire -->
+      <button onclick="openQuestionnaireModal()" class="flex items-center space-x-1.5 px-3 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 rounded-xl text-xs font-bold transition shadow-md shadow-amber-500/20 active:scale-95">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        <span>Auto-Fill</span>
+      </button>
+
+      <!-- Upload Contract Button -->
+      <button onclick="openUploadModal()" class="flex items-center space-x-1.5 px-3 py-2 bg-slate-800/90 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700/80 hover:border-slate-600 transition shadow-sm">
+        <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        <span>Upload</span>
+      </button>
+
+      <!-- Decluttered "Tools ▾" Menu Dropdown -->
+      <div class="relative">
+        <button onclick="toggleMoreMenu(event)" class="flex items-center space-x-1.5 px-3 py-2 bg-slate-800/90 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold border border-slate-700/80 hover:border-slate-600 transition">
+          <span>Tools</span>
+          <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div id="moreMenuDropdown" class="absolute right-0 mt-2 w-56 glass-panel rounded-2xl p-1.5 border border-white/10 shadow-2xl hidden z-50">
+          <button onclick="openCloudModal(); toggleMoreMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs text-slate-200 hover:bg-slate-800 flex items-center space-x-2.5 transition">
+            <svg class="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+            <div>
+              <div class="font-semibold text-white">Cloud Drive Sync</div>
+              <div class="text-[10px] text-slate-400">Google Drive & SharePoint</div>
+            </div>
+          </button>
+
+          <button onclick="openSlackModal(); toggleMoreMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs text-slate-200 hover:bg-slate-800 flex items-center space-x-2.5 transition">
+            <span class="text-amber-400 font-bold text-xs shrink-0 w-4 text-center">#</span>
+            <div>
+              <div class="font-semibold text-white">Slack Bot</div>
+              <div class="text-[10px] text-slate-400">Slash command simulator</div>
+            </div>
+          </button>
+
+          <button onclick="openAuditModal(); toggleMoreMenu();" class="w-full text-left px-3 py-2 rounded-xl text-xs text-slate-200 hover:bg-slate-800 flex items-center space-x-2.5 transition">
+            <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <div>
+              <div class="font-semibold text-white">Audit Trail Ledger</div>
+              <div class="text-[10px] text-slate-400">SOC 2 / ISO ready records</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- User Profile Badge -->
+      <button onclick="openUserModal()" class="flex items-center space-x-2 pl-2 pr-2.5 py-1.5 bg-slate-900 border border-slate-700/80 hover:border-amber-400/60 rounded-xl text-xs transition shrink-0">
+        <div class="w-6 h-6 rounded-lg bg-gradient-to-tr from-indigo-500 to-amber-500 flex items-center justify-center text-[10px] font-bold text-white shadow-sm" id="userAvatar">SC</div>
+        <div class="text-left hidden sm:block">
+          <div class="text-slate-200 font-bold text-[11px] leading-tight flex items-center space-x-1">
+            <span id="userNameHeader">Sarah Chen</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          </div>
+          <div class="text-slate-400 text-[9px] font-medium leading-none truncate max-w-[80px]" id="userWorkspaceHeader">Acme Global</div>
+        </div>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- WORKSPACE BODY (SPLIT-SCREEN) -->
+  <main class="flex-1 flex overflow-hidden">
+    
+    <!-- LEFT PANE: AI Chat Assistant & Query Engine -->
+    <section class="w-1/2 flex flex-col border-r border-white/[0.08] bg-slate-900/40 relative">
+      
+      <!-- Sub-header metadata pill -->
+      <div class="px-5 py-2.5 bg-slate-950/60 border-b border-white/[0.06] flex items-center justify-between text-xs font-medium">
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+          <span class="text-slate-400">Context:</span>
+          <span id="metaDocTitle" class="text-slate-100 font-semibold truncate max-w-sm">Loading...</span>
+        </div>
+        <div class="flex items-center space-x-3 text-slate-400 text-[11px]">
+          <span id="metaEffectiveDate">Oct 2024</span>
+          <span>•</span>
+          <span id="metaPages" class="font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-md border border-amber-400/20">3 Pages</span>
+        </div>
+      </div>
+
+      <!-- Quick-Prompt Chips Toolbar -->
+      <div class="px-5 py-2.5 bg-slate-900/80 border-b border-white/[0.06] flex items-center space-x-2 overflow-x-auto no-scrollbar">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 shrink-0">Suggestions:</span>
+        <div id="promptChips" class="flex items-center space-x-2"></div>
+      </div>
+
+      <!-- Chat Messages Scroll Stream -->
+      <div id="chatMessages" class="flex-1 overflow-y-auto p-5 space-y-4">
+        
+        <!-- Welcome Card -->
+        <div class="glass-panel rounded-2xl p-5 border border-indigo-500/20 shadow-xl max-w-xl">
+          <div class="flex items-start space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-indigo-600/30 border border-indigo-400/30 flex items-center justify-center text-indigo-400 shrink-0 font-bold text-sm">
+              ✨
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-sm">Welcome to ClauseVerify Workspace</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                Ask any question about liabilities, termination windows, SLAs, or security controls. Every answer produces an exact physical citation that highlights directly on the original document page.
+              </p>
+              <div class="mt-3 flex items-center space-x-2 text-[11px] text-amber-400/90 font-mono">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span>Zero speculation. Anchored to source text.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Chat Input Bar -->
+      <div class="p-4 bg-slate-950/80 border-t border-white/[0.08] shrink-0">
+        <form onsubmit="handleQuerySubmit(event)" class="relative flex items-center">
+          <input 
+            type="text" 
+            id="queryInput" 
+            placeholder="Ask about liability caps, 30-day notice, SLAs, encryption..." 
+            class="w-full bg-slate-900/90 border border-slate-700/80 rounded-2xl py-3.5 pl-4 pr-28 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition shadow-inner font-medium"
+          />
+          <button 
+            type="submit" 
+            id="sendBtn"
+            class="absolute right-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl transition flex items-center space-x-1.5 shadow-md shadow-amber-500/25 active:scale-95"
+          >
+            <span>Verify</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </form>
+        <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2 px-1">
+          <span>Tip: Click any yellow citation badge to scroll and inspect the source.</span>
+          <span class="font-mono text-emerald-400">● Engine Online</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- RIGHT PANE: Document & Visual Bounding-Box Viewer -->
+    <section class="w-1/2 flex flex-col bg-[#080c14] overflow-hidden">
+      
+      <!-- Document Controls Toolbar -->
+      <div class="h-12 bg-slate-950/90 border-b border-white/[0.08] px-5 flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Document Canvas:</span>
+          <span id="activePageIndicator" class="text-xs px-2.5 py-0.5 bg-slate-900 rounded-lg font-mono text-amber-400 border border-slate-700/80 shadow-sm">Page 1 of 3</span>
+        </div>
+
+        <!-- Dynamic Citation Status Banner -->
+        <div id="citationStatusBadge" class="hidden items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-semibold shadow-sm animate-pulse">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span id="citationBadgeText">Focused: Clause 3.2</span>
+        </div>
+
+        <!-- Page Steppers -->
+        <div class="flex items-center space-x-1">
+          <button onclick="jumpPage(-1)" title="Previous Page" class="p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <button onclick="jumpPage(1)" title="Next Page" class="p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Document Page Canvas Viewport -->
+      <div id="documentViewport" class="flex-1 overflow-y-auto p-8 flex flex-col items-center space-y-8 bg-slate-950/50">
+        <!-- Rendered Pages with Official Paper Styling -->
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- MODAL 1: UPLOAD CUSTOM CONTRACT -->
+  <div id="uploadModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-6">
+    <div class="glass-panel rounded-3xl w-full max-w-xl flex flex-col shadow-2xl p-6 border border-white/10">
+      <div class="flex justify-between items-center pb-4 border-b border-white/[0.08] mb-5">
+        <div>
+          <h3 class="font-bold text-white text-base">Add New Agreement or Policy</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Upload a contract file or paste clauses to generate verified citations.</p>
+        </div>
+        <button onclick="closeUploadModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">✕</button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Drag and Drop Dropzone -->
+        <div 
+          id="dropZone"
+          onclick="document.getElementById('fileInput').click()" 
+          ondragover="handleDragOver(event)" 
+          ondragleave="handleDragLeave(event)" 
+          ondrop="handleFileDrop(event)"
+          class="border-2 border-dashed border-slate-700 hover:border-amber-400/70 bg-slate-900/60 hover:bg-slate-900 rounded-2xl p-6 text-center cursor-pointer transition group"
+        >
+          <input type="file" id="fileInput" accept=".txt,.md,.json,.pdf,.doc,.docx" class="hidden" onchange="handleFileSelect(event)">
+          <div class="w-10 h-10 mx-auto mb-2 rounded-xl bg-slate-800 group-hover:bg-amber-400/20 text-slate-400 group-hover:text-amber-400 flex items-center justify-center transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+          </div>
+          <p id="dropZoneText" class="text-xs font-semibold text-slate-200">
+            Click to browse or drag & drop a contract file
+          </p>
+          <p class="text-[11px] text-slate-500 mt-1">Supports .txt, .md, .json, and plain-text contracts</p>
+        </div>
+
+        <!-- One-Click Preset Button -->
+        <div class="flex items-center justify-between text-xs px-1">
+          <span class="text-slate-400">Want to test quickly?</span>
+          <button onclick="loadSampleNDAIntoUpload()" class="text-amber-400 hover:text-amber-300 font-semibold underline text-xs">
+            + Load Sample Mutual NDA (4 Clauses)
+          </button>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Document Title</label>
+          <input type="text" id="uploadTitle" placeholder="e.g. Enterprise Mutual Non-Disclosure Agreement (NDA) 2025" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Contract Clauses Content</label>
+          <textarea id="uploadContent" rows="6" placeholder="Paste your contract clauses or policies here... Separate paragraphs with blank lines to create distinct sections." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-amber-400 font-mono leading-relaxed"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-2.5 pt-2">
+          <button onclick="closeUploadModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">Cancel</button>
+          <button onclick="handleDocumentUpload()" id="uploadSubmitBtn" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center space-x-1.5">
+            <span>Process & Load</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL 2: QUESTIONNAIRE AUTO-FILLER -->
+  <div id="questionnaireModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-6">
+    <div class="glass-panel rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl border border-white/10">
+      
+      <div class="p-6 border-b border-white/[0.08] flex items-center justify-between">
+        <div>
+          <div class="flex items-center space-x-2">
+            <h2 class="text-lg font-bold text-white">Vendor Security Questionnaire Auto-Filler</h2>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-wider font-mono">B2B Enterprise</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Automatically resolves vendor security assessments with exact SOC 2 & policy citations.</p>
+        </div>
+        <button onclick="closeQuestionnaireModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">✕</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 flex-1">
+        <div class="flex items-center justify-between bg-slate-950/80 p-3.5 rounded-2xl border border-white/[0.06]">
+          <span class="text-xs text-slate-300 font-medium">Source Document: <strong class="text-amber-400 font-semibold">CloudTrust SOC 2 Type II</strong></span>
+          <div class="space-x-2">
+            <button onclick="loadSampleQuestions()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-xl font-semibold border border-slate-700/80 transition">Load 6 Enterprise Questions</button>
+            <button onclick="runQuestionnaireAutoFill()" id="autoFillBtn" class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 text-xs font-bold rounded-xl shadow-md shadow-emerald-500/20 transition">⚡ Run AI Auto-Fill</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Question List (One question per line):</label>
+          <textarea id="questionnaireInput" rows="5" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3 text-xs text-white focus:outline-none focus:border-amber-400 font-mono leading-relaxed"></textarea>
+        </div>
+
+        <!-- Output Table -->
+        <div id="questionnaireResultsArea" class="hidden space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-white flex items-center space-x-1.5">
+              <span>Verified Questionnaire Output</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            </span>
+            <button onclick="exportQuestionnaireCSV()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl shadow-md transition flex items-center space-x-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Export CSV Spreadsheet</span>
+            </button>
+          </div>
+          <div class="border border-white/[0.08] rounded-2xl overflow-hidden bg-slate-950/60 shadow-xl">
+            <table class="w-full text-left text-xs text-slate-300">
+              <thead class="bg-slate-900 text-slate-400 text-[11px] font-semibold uppercase tracking-wider">
+                <tr>
+                  <th class="p-3.5 w-1/3">Question</th>
+                  <th class="p-3.5">Verified Finding</th>
+                  <th class="p-3.5 w-48">Source Proof</th>
+                </tr>
+              </thead>
+              <tbody id="questionnaireTableBody" class="divide-y divide-white/[0.06]"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 border-t border-white/[0.08] flex justify-end bg-slate-950/80 rounded-b-3xl">
+        <button onclick="closeQuestionnaireModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL 3: AUDIT TRAIL MODAL -->
+  <div id="auditModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-6">
+    <div class="glass-panel rounded-3xl w-full max-w-4xl max-h-[85vh] flex flex-col shadow-2xl border border-white/10">
+      <div class="p-6 border-b border-white/[0.08] flex items-center justify-between">
+        <div>
+          <div class="flex items-center space-x-2">
+            <h2 class="text-base font-bold text-white">Immutable Verification Audit Ledger</h2>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono">SOC 2 / ISO Ready</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">Every query, retrieved clause, and timestamp is stored in an append-only cryptographic ledger.</p>
+        </div>
+        <button onclick="closeAuditModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">✕</button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="text-[11px] uppercase tracking-wider text-slate-400 bg-slate-900 sticky top-0 font-semibold">
+            <tr>
+              <th class="p-3.5">Time (UTC)</th>
+              <th class="p-3.5">User</th>
+              <th class="p-3.5">Prompt</th>
+              <th class="p-3.5">Cited Clause</th>
+              <th class="p-3.5">Status</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody" class="divide-y divide-white/[0.06] font-mono text-[11px]"></tbody>
+        </table>
+      </div>
+
+      <div class="p-4 border-t border-white/[0.08] flex justify-between items-center bg-slate-950/80 rounded-b-3xl">
+        <span class="text-xs text-slate-400">Total Audit Records: <strong id="auditCount" class="text-slate-200">0</strong></span>
+        <button onclick="closeAuditModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL 5: CLOUD DRIVE SYNC (GOOGLE DRIVE & SHAREPOINT) -->
+  <div id="cloudModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-6">
+    <div class="glass-panel rounded-3xl w-full max-w-2xl flex flex-col shadow-2xl p-6 border border-white/10">
+      <div class="flex justify-between items-center pb-4 border-b border-white/[0.08] mb-5">
+        <div>
+          <div class="flex items-center space-x-2">
+            <h3 class="font-bold text-white text-base">Enterprise Cloud Storage Sync</h3>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono">Zero Upload Friction</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">Directly ingest executed contracts from corporate Google Drive or Microsoft SharePoint folders.</p>
+        </div>
+        <button onclick="closeCloudModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">✕</button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Drive Selector Tabs -->
+        <div class="grid grid-cols-2 gap-3">
+          <div onclick="selectDriveTab('gdrive')" id="tabGDrive" class="p-3.5 rounded-2xl border-2 border-amber-400/80 bg-slate-900/90 cursor-pointer transition flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">G</div>
+            <div>
+              <div class="text-xs font-bold text-white">Google Drive</div>
+              <div class="text-[10px] text-slate-400">Connected: legal-team@acme.com</div>
+            </div>
+          </div>
+          <div onclick="selectDriveTab('sharepoint')" id="tabSharepoint" class="p-3.5 rounded-2xl border border-slate-700/80 bg-slate-900/50 hover:bg-slate-900 cursor-pointer transition flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs">S</div>
+            <div>
+              <div class="text-xs font-bold text-white">Microsoft SharePoint</div>
+              <div class="text-[10px] text-slate-400">Connected: compliance@acme.com</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Files Preview in Folder -->
+        <div class="bg-slate-950/80 border border-white/[0.06] rounded-2xl p-4">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-semibold text-slate-300" id="cloudFolderName">Folder: Executed Customer MSAs (2024-2025)</span>
+            <span class="text-[11px] text-amber-400 font-mono" id="cloudFileCount">4 Contracts Found</span>
+          </div>
+          <div id="cloudFileList" class="space-y-2 text-xs">
+            <!-- Dynamic file list -->
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center pt-2">
+          <span class="text-[11px] text-slate-400">Auto-syncs contracts, assigns bounding boxes & legal tags.</span>
+          <button onclick="executeCloudSync()" id="cloudSyncBtn" class="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-blue-500/25 transition">
+            Sync & Ingest Folder
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL 6: SLACK BOT SIMULATOR -->
+  <div id="slackModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-6">
+    <div class="glass-panel rounded-3xl w-full max-w-xl flex flex-col shadow-2xl p-6 border border-white/10">
+      <div class="flex justify-between items-center pb-4 border-b border-white/[0.08] mb-5">
+        <div>
+          <div class="flex items-center space-x-2">
+            <h3 class="font-bold text-white text-base">Slack & MS Teams Integration</h3>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">ChatOps Ready</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">Team members ask questions directly in Slack; bot returns verified quotes with citation links.</p>
+        </div>
+        <button onclick="closeSlackModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">✕</button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Interactive Slack Command Prompt -->
+        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+          <label class="block text-[11px] font-mono text-slate-400 mb-1">Slash Command:</label>
+          <div class="flex items-center space-x-2">
+            <span class="text-amber-400 font-mono text-xs font-bold">/clauseverify</span>
+            <input type="text" id="slackInput" value="What is our SLA uptime credit remedy?" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <button onclick="runSlackSimulator()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg transition">Send</button>
+          </div>
+        </div>
+
+        <!-- Slack Output Preview Window (Slack UI Aesthetic) -->
+        <div class="bg-[#1a1d21] border border-slate-700/80 rounded-2xl p-4 text-xs font-sans shadow-inner">
+          <div class="flex items-start space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shrink-0 shadow">§</div>
+            <div class="flex-1 space-y-2">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-white text-xs">ClauseVerify Bot</span>
+                <span class="bg-slate-700 text-slate-300 text-[9px] px-1.5 py-0.5 rounded font-mono font-medium">APP</span>
+                <span class="text-slate-400 text-[10px]">Just now</span>
+              </div>
+              <div id="slackOutputArea" class="text-slate-200 leading-relaxed text-xs space-y-2">
+                <p class="text-slate-400 italic">Click 'Send' above to simulate a live Slack slash command response...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center pt-2 text-[11px] text-slate-400">
+          <span>Incoming Webhook: <code class="font-mono text-indigo-400">POST /api/integrations/slack/command</code></span>
+          <button onclick="closeSlackModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl text-xs">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL 4: SIGN-IN, REGISTER & WORKSPACE ONBOARDING -->
+  <div id="userModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-6">
+    <div class="glass-panel rounded-3xl w-full max-w-lg flex flex-col shadow-2xl p-6 border border-white/10">
+      <div class="flex justify-between items-center pb-4 border-b border-white/[0.08] mb-4">
+        <div>
+          <h3 class="font-bold text-white text-base">Enterprise Identity & Access</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Sign in to your dedicated company workspace or create a new one.</p>
+        </div>
+        <button onclick="closeUserModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">✕</button>
+      </div>
+
+      <!-- Auth Tabs -->
+      <div class="flex bg-slate-950 p-1 rounded-2xl border border-slate-800 mb-4 text-xs font-semibold">
+        <button onclick="switchAuthTab('signin')" id="tabBtnSignIn" class="flex-1 py-2 rounded-xl bg-slate-800 text-white transition">Sign In</button>
+        <button onclick="switchAuthTab('register')" id="tabBtnRegister" class="flex-1 py-2 rounded-xl text-slate-400 hover:text-white transition">Create Workspace</button>
+        <button onclick="switchAuthTab('personas')" id="tabBtnPersonas" class="flex-1 py-2 rounded-xl text-slate-400 hover:text-white transition">1-Click Demos</button>
+      </div>
+
+      <!-- TAB 1: SIGN IN -->
+      <div id="authViewSignIn" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Work Email</label>
+          <input type="email" id="loginEmail" placeholder="e.g. sarah.chen@acme.com" value="sarah.chen@acme.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" value="demo123" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          <p class="text-[10px] text-slate-500 mt-1">Default demo password: <code class="text-amber-400 font-mono">demo123</code></p>
+        </div>
+        <button onclick="handleUserLogin()" id="loginSubmitBtn" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-amber-500/20 transition">
+          Sign In to Workspace
+        </button>
+      </div>
+
+      <!-- TAB 2: REGISTER NEW WORKSPACE -->
+      <div id="authViewRegister" class="space-y-3 hidden">
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Full Name</label>
+            <input type="text" id="regFullName" placeholder="e.g. Alexander Vance" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Role / Title</label>
+            <input type="text" id="regRole" placeholder="e.g. General Counsel" value="General Counsel" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-300 mb-1">Company / Organization Name</label>
+          <input type="text" id="regCompany" placeholder="e.g. Nexus Health Tech" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-300 mb-1">Work Email (Creates Isolated Domain Tenant)</label>
+          <input type="email" id="regEmail" placeholder="e.g. alex@nexushealth.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="regPassword" placeholder="••••••••" value="password123" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <button onclick="handleUserRegister()" id="regSubmitBtn" class="w-full py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/20 transition">
+          Create Dedicated Company Workspace
+        </button>
+      </div>
+
+      <!-- TAB 3: DEMO PERSONAS -->
+      <div id="authViewPersonas" class="space-y-2.5 hidden">
+        <div onclick="selectUserPersona('sarah.chen@acme.com')" class="p-3 rounded-2xl border border-slate-700/80 hover:border-amber-400/80 bg-slate-900/80 hover:bg-slate-800/90 cursor-pointer transition flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">SC</div>
+            <div>
+              <div class="text-xs font-bold text-white group-hover:text-amber-300 transition">Sarah Chen</div>
+              <div class="text-[10px] text-slate-400">Chief Compliance Officer • Acme Global Industries</div>
+            </div>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">1-Click</span>
+        </div>
+
+        <div onclick="selectUserPersona('marcus.vance@sentinelwealth.com')" class="p-3 rounded-2xl border border-slate-700/80 hover:border-amber-400/80 bg-slate-900/80 hover:bg-slate-800/90 cursor-pointer transition flex items-center justify-between group">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-amber-600 flex items-center justify-center font-bold text-slate-950 text-xs">MV</div>
+            <div>
+              <div class="text-xs font-bold text-white group-hover:text-amber-300 transition">Marcus Vance</div>
+              <div class="text-[10px] text-slate-400">Lead Security Auditor • Sentinel Wealth Management</div>
+            </div>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">1-Click</span>
+        </div>
+      </div>
+
+      <!-- Footer with Sign Out -->
+      <div class="mt-4 pt-3 border-t border-white/[0.08] text-[11px] text-slate-400 flex items-center justify-between">
+        <button onclick="handleUserLogout()" class="text-red-400 hover:text-red-300 font-medium text-xs flex items-center space-x-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Sign Out</span>
+        </button>
+        <button onclick="closeUserModal()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENT LOGIC -->
+  <script>
+    let currentDoc = null;
+    let currentDocId = "doc_msa_01";
+    let activePage = 1;
+    let lastQuestionnaireResults = [];
+    let currentUser = null;
+    let authToken = localStorage.getItem("clauseverify_auth_token") || "token_acme_compliance_officer_sec";
+
+    function getAuthHeaders() {
+      return {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken
+      };
+    }
+
+    async function init() {
+      await loadCurrentUser();
+      await refreshDocDropdown();
+    }
+
+    async function loadCurrentUser() {
+      try {
+        const res = await fetch('/api/auth/me', { headers: getAuthHeaders() });
+        currentUser = await res.json();
+        authToken = currentUser.auth_token;
+        localStorage.setItem("clauseverify_auth_token", authToken);
+
+        document.getElementById('userNameHeader').innerText = currentUser.full_name;
+        document.getElementById('userWorkspaceHeader').innerText = currentUser.workspace.name;
+        const initials = currentUser.full_name.split(' ').map(n => n[0]).join('');
+        document.getElementById('userAvatar').innerText = initials;
+      } catch (err) {
+        console.error("Auth fetch error:", err);
+      }
+    }
+
+    function openUserModal() { document.getElementById('userModal').classList.remove('hidden'); }
+    function closeUserModal() { document.getElementById('userModal').classList.add('hidden'); }
+
+    async function selectUserPersona(email) {
+      const res = await fetch('/api/auth/switch-user', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email: email })
+      });
+      const data = await res.json();
+      authToken = data.auth_token;
+      localStorage.setItem("clauseverify_auth_token", authToken);
+      closeUserModal();
+      await loadCurrentUser();
+      await refreshDocDropdown();
+    }
+
+    function switchAuthTab(tab) {
+      document.getElementById('authViewSignIn').classList.add('hidden');
+      document.getElementById('authViewRegister').classList.add('hidden');
+      document.getElementById('authViewPersonas').classList.add('hidden');
+
+      document.getElementById('tabBtnSignIn').className = "flex-1 py-2 rounded-xl text-slate-400 hover:text-white transition";
+      document.getElementById('tabBtnRegister').className = "flex-1 py-2 rounded-xl text-slate-400 hover:text-white transition";
+      document.getElementById('tabBtnPersonas').className = "flex-1 py-2 rounded-xl text-slate-400 hover:text-white transition";
+
+      if (tab === 'signin') {
+        document.getElementById('authViewSignIn').classList.remove('hidden');
+        document.getElementById('tabBtnSignIn').className = "flex-1 py-2 rounded-xl bg-slate-800 text-white transition";
+      } else if (tab === 'register') {
+        document.getElementById('authViewRegister').classList.remove('hidden');
+        document.getElementById('tabBtnRegister').className = "flex-1 py-2 rounded-xl bg-slate-800 text-white transition";
+      } else if (tab === 'personas') {
+        document.getElementById('authViewPersonas').classList.remove('hidden');
+        document.getElementById('tabBtnPersonas').className = "flex-1 py-2 rounded-xl bg-slate-800 text-white transition";
+      }
+    }
+
+    async function handleUserLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      if (!email || !password) {
+        alert("Please enter email and password.");
+        return;
+      }
+
+      const btn = document.getElementById('loginSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = "Signing in...";
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email: email, password: password })
+        });
+        const data = await res.json();
+        if (data.error || !data.auth_token) {
+          alert(data.error || "Login failed");
+          return;
+        }
+        authToken = data.auth_token;
+        localStorage.setItem("clauseverify_auth_token", authToken);
+        closeUserModal();
+        await loadCurrentUser();
+        await refreshDocDropdown();
+      } catch (err) {
+        alert("Sign in failed. Ensure backend server is running.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Sign In to Workspace";
+      }
+    }
+
+    async function handleUserRegister() {
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+      const fullName = document.getElementById('regFullName').value.trim();
+      const company = document.getElementById('regCompany').value.trim();
+      const role = document.getElementById('regRole').value.trim();
+
+      if (!email || !password || !fullName || !company) {
+        alert("Please fill in all registration fields.");
+        return;
+      }
+
+      const btn = document.getElementById('regSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = "Creating Workspace...";
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            full_name: fullName,
+            company_name: company,
+            role: role
+          })
+        });
+        const data = await res.json();
+        if (data.error || !data.auth_token) {
+          alert(data.error || "Registration failed");
+          return;
+        }
+        authToken = data.auth_token;
+        localStorage.setItem("clauseverify_auth_token", authToken);
+        closeUserModal();
+        await loadCurrentUser();
+        await refreshDocDropdown();
+        alert(`Welcome to ClauseVerify, ${fullName}! Your dedicated workspace for "${company}" is ready.`);
+      } catch (err) {
+        alert("Registration failed. Please check inputs.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Create Dedicated Company Workspace";
+      }
+    }
+
+    function handleUserLogout() {
+      localStorage.removeItem("clauseverify_auth_token");
+      authToken = "";
+      document.getElementById('userNameHeader').innerText = "Not Signed In";
+      document.getElementById('userWorkspaceHeader').innerText = "Guest";
+      document.getElementById('userAvatar').innerText = "—";
+      openUserModal();
+      switchAuthTab('signin');
+    }
+
+    const SAMPLE_PROMPTS = {
+      "doc_msa_01": [
+        "What is our guaranteed uptime SLA and credit remedy?",
+        "Can the client terminate the contract for convenience?",
+        "What is the maximum liability cap?",
+        "Are third-party sub-processors permitted for AI?"
+      ],
+      "doc_soc2_02": [
+        "What encryption standards are enforced at rest and transit?",
+        "Is Multi-Factor Authentication (MFA) mandatory?",
+        "What is the critical incident notification SLA?",
+        "How long are compliance records retained upon deletion?"
+      ]
+    };
+
+    async function init() {
+      await refreshDocDropdown();
+      await switchDocument(currentDocId);
+    }
+
+    window.globalCitationStore = [];
+
+    function formatMarkdown(text) {
+      if (!text) return '';
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
+        .replace(/^> (.*$)/gim, '<blockquote class="border-l-2 border-amber-400 pl-3 my-2 text-slate-300 italic bg-slate-900/60 py-1.5 rounded-r">$1</blockquote>')
+        .replace(/\n\n/g, '<br><br>');
+    }
+
+    function highlightCitationByIndex(idx) {
+      const c = window.globalCitationStore[idx];
+      if (c) highlightCitation(c);
+    }
+
+    async function refreshDocDropdown() {
+      const res = await fetch('/api/documents', { headers: getAuthHeaders() });
+      const docs = await res.json();
+      const select = document.getElementById('docSelect');
+      select.innerHTML = '';
+      if (!docs || docs.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = "";
+        opt.innerText = "No documents in this workspace";
+        select.appendChild(opt);
+        return;
+      }
+
+      // Deduplicate contracts by title
+      const seen = new Set();
+      const uniqueDocs = [];
+      docs.forEach(d => {
+        if (!seen.has(d.title)) {
+          seen.add(d.title);
+          uniqueDocs.push(d);
+        }
+      });
+
+      uniqueDocs.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.id;
+        opt.innerText = d.title;
+        opt.className = "bg-slate-900 text-slate-200";
+        select.appendChild(opt);
+      });
+
+      // Default to Acme MSA if available for best first-time experience
+      const msaDoc = uniqueDocs.find(d => d.id === 'doc_msa_01');
+      currentDocId = msaDoc ? msaDoc.id : uniqueDocs[0].id;
+      select.value = currentDocId;
+      await switchDocument(currentDocId);
+    }
+
+    async function switchDocument(docId) {
+      if (!docId) return;
+      currentDocId = docId;
+      const res = await fetch(`/api/documents/${docId}`, { headers: getAuthHeaders() });
+      if (!res.ok) return;
+      currentDoc = await res.json();
+
+      document.getElementById('metaDocTitle').innerText = currentDoc.title;
+      document.getElementById('metaEffectiveDate').innerText = currentDoc.effective_date;
+      document.getElementById('metaPages').innerText = `${currentDoc.pages.length} Pages`;
+
+      updatePromptChips();
+      renderDocumentPages();
+      updatePageIndicator();
+    }
+
+    function updatePromptChips() {
+      const container = document.getElementById('promptChips');
+      container.innerHTML = '';
+      const prompts = SAMPLE_PROMPTS[currentDocId] || [
+        "What is the main scope of services?",
+        "What are the termination clauses?",
+        "Are there liabilities or penalties mentioned?"
+      ];
+
+      prompts.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = "shrink-0 px-3 py-1 bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-amber-300 text-xs rounded-full border border-slate-700/80 transition font-medium shadow-sm";
+        btn.innerText = p;
+        btn.onclick = () => {
+          document.getElementById('queryInput').value = p;
+          handleQuerySubmit();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // Render High-Aesthetic Authentic Document Pages
+    function renderDocumentPages() {
+      const viewport = document.getElementById('documentViewport');
+      viewport.innerHTML = '';
+
+      currentDoc.pages.forEach(page => {
+        const pageContainer = document.createElement('div');
+        pageContainer.id = `doc-page-${page.page_number}`;
+        pageContainer.className = "relative w-full max-w-[580px] min-h-[780px] bg-[#fdfdfc] text-slate-900 rounded-lg shadow-2xl p-10 font-serif text-[13px] leading-relaxed border border-slate-200/90 select-text";
+
+        let html = `
+          <div class="border-b border-slate-300/80 pb-3 mb-6 flex justify-between items-center text-[10px] text-slate-500 font-sans tracking-widest uppercase font-semibold">
+            <span>${currentDoc.title}</span>
+            <span>Page ${page.page_number} of ${currentDoc.pages.length}</span>
+          </div>
+        `;
+
+        page.sections.forEach(sec => {
+          html += `
+            <div id="clause-box-${sec.clause.replace(/[^a-zA-Z0-9]/g, '_')}" class="clause-block mb-6 p-3 rounded-lg transition-all duration-300 border border-transparent">
+              <h4 class="font-bold text-slate-900 mb-1.5 text-sm font-sans flex items-center justify-between">
+                <span>${sec.clause} — ${sec.title}</span>
+              </h4>
+              <p class="text-slate-700 text-justify font-normal leading-relaxed">${sec.text}</p>
+            </div>
+          `;
+        });
+
+        html += `
+          <div class="absolute bottom-5 left-10 right-10 pt-3 border-t border-slate-200 flex justify-between text-[10px] text-slate-400 font-sans tracking-wider">
+            <span>CONFIDENTIAL & PRIVILEGED</span>
+            <span>EXHIBIT ${page.page_number}</span>
+          </div>
+        `;
+
+        pageContainer.innerHTML = html;
+        viewport.appendChild(pageContainer);
+      });
+    }
+
+    async function handleQuerySubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('queryInput');
+      const query = input.value.trim();
+      if (!query) return;
+
+      const sendBtn = document.getElementById('sendBtn');
+      sendBtn.disabled = true;
+      sendBtn.innerHTML = '<span>Verifying...</span>';
+
+      appendChatMessage("user", query);
+      input.value = '';
+
+      try {
+        const res = await fetch('/api/query', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({
+            query: query,
+            document_id: currentDocId
+          })
+        });
+
+        const data = await res.json();
+        appendChatMessage("ai", data.answer, data.citations);
+
+        if (data.citations && data.citations.length > 0) {
+          highlightCitation(data.citations[0]);
+        }
+      } catch (err) {
+        appendChatMessage("ai", "⚠️ Connection error. Please verify the backend server is running.");
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<span>Verify</span><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>';
+      }
+    }
+
+    function appendChatMessage(role, text, citations = []) {
+      const container = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `flex space-x-3 max-w-xl ${role === 'user' ? 'ml-auto justify-end' : ''}`;
+
+      let citationPillsHtml = '';
+      if (citations && citations.length > 0) {
+        citationPillsHtml = `
+          <div class="mt-3.5 pt-2.5 border-t border-white/[0.08] flex flex-wrap gap-2 items-center">
+            <span class="text-[10px] font-mono uppercase text-amber-400 font-bold tracking-wider flex items-center space-x-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              <span>Ground Truth:</span>
+            </span>
+            ${citations.map(c => {
+              const idx = window.globalCitationStore.push(c) - 1;
+              return `
+                <button 
+                  onclick="highlightCitationByIndex(${idx})" 
+                  class="px-3 py-1 bg-amber-500/10 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-mono flex items-center space-x-1.5 transition cursor-pointer shadow-sm active:scale-95"
+                >
+                  <span>📍 Page ${c.page} • ${c.clause}</span>
+                  <span class="text-[9px] bg-amber-400 text-slate-950 font-extrabold px-1.5 py-0.5 rounded-md">100% Match</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }
+
+      if (role === 'user') {
+        msgDiv.innerHTML = `
+          <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-2xl py-3 px-4 text-xs font-semibold shadow-md leading-relaxed">
+            ${text}
+          </div>
+        `;
+      } else {
+        msgDiv.innerHTML = `
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-indigo-600 flex items-center justify-center text-slate-950 shrink-0 font-bold text-xs shadow-md">§</div>
+          <div class="glass-panel rounded-2xl p-4 text-xs text-slate-200 shadow-xl border border-white/[0.08] leading-relaxed">
+            <div class="prose prose-invert text-xs max-w-none leading-relaxed">
+              ${formatMarkdown(text)}
+            </div>
+            ${citationPillsHtml}
+          </div>
+        `;
+      }
+
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Scroll to exact page and visually pulse golden highlight
+    function highlightCitation(citation) {
+      document.querySelectorAll('.clause-block').forEach(el => el.classList.remove('highlight-active'));
+
+      const clauseId = `clause-box-${citation.clause.replace(/[^a-zA-Z0-9]/g, '_')}`;
+      const targetElement = document.getElementById(clauseId);
+
+      if (targetElement) {
+        targetElement.classList.add('highlight-active');
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const badge = document.getElementById('citationStatusBadge');
+        badge.classList.remove('hidden');
+        badge.classList.add('flex');
+        document.getElementById('citationBadgeText').innerText = `Focused: ${citation.clause} (Page ${citation.page})`;
+
+        activePage = citation.page;
+        updatePageIndicator();
+      }
+    }
+
+    function jumpPage(delta) {
+      if (!currentDoc) return;
+      activePage = Math.max(1, Math.min(currentDoc.pages.length, activePage + delta));
+      const pageEl = document.getElementById(`doc-page-${activePage}`);
+      if (pageEl) {
+        pageEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        updatePageIndicator();
+      }
+    }
+
+    function updatePageIndicator() {
+      if (!currentDoc) return;
+      document.getElementById('activePageIndicator').innerText = `Page ${activePage} of ${currentDoc.pages.length}`;
+    }
+
+    // Drag & Drop File Handlers
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('dropZone').classList.add('border-amber-400', 'bg-slate-800');
+    }
+
+    function handleDragLeave(e) {
+      e.preventDefault();
+      document.getElementById('dropZone').classList.remove('border-amber-400', 'bg-slate-800');
+    }
+
+    function handleFileDrop(e) {
+      e.preventDefault();
+      document.getElementById('dropZone').classList.remove('border-amber-400', 'bg-slate-800');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        processUploadedFile(e.dataTransfer.files[0]);
+      }
+    }
+
+    function handleFileSelect(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        processUploadedFile(e.target.files[0]);
+      }
+    }
+
+    function processUploadedFile(file) {
+      const dropZoneText = document.getElementById('dropZoneText');
+      dropZoneText.innerHTML = `✅ <span class="text-amber-400 font-bold">${file.name}</span> (${(file.size / 1024).toFixed(1)} KB)`;
+
+      const titleInput = document.getElementById('uploadTitle');
+      const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+      titleInput.value = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('uploadContent').value = evt.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    function loadSampleNDAIntoUpload() {
+      document.getElementById('uploadTitle').value = "Alpha Beta Mutual NDA 2025";
+      document.getElementById('uploadContent').value = `Section 1. Definition of Confidential Information
+Confidential Information means all non-public, proprietary information disclosed by either party, including business plans, financial projections, source code, and customer records.
+
+Section 2. Non-Disclosure & Standard of Care
+The Recipient agrees to hold all Confidential Information in strict confidence and use the same degree of care it uses for its own proprietary records, but not less than reasonable care.
+
+Section 3. Term & Duration of Confidentiality
+The confidentiality obligations under this Agreement shall survive termination and remain in effect for a period of five (5) years from the initial disclosure date.
+
+Section 4. Return and Cryptographic Erasure
+Upon written demand from Discloser, Recipient shall permanently destroy or return all materials containing Confidential Information within fourteen (14) days.`;
+      document.getElementById('dropZoneText').innerHTML = `✅ <span class="text-amber-400 font-bold">Sample Mutual NDA Loaded</span>`;
+    }
+
+    // Modals
+    function openUploadModal() { document.getElementById('uploadModal').classList.remove('hidden'); }
+    function closeUploadModal() { 
+      document.getElementById('uploadModal').classList.add('hidden'); 
+      document.getElementById('dropZoneText').innerText = "Click to browse or drag & drop a contract file";
+    }
+
+    async function handleDocumentUpload() {
+      const title = document.getElementById('uploadTitle').value.trim();
+      const content = document.getElementById('uploadContent').value.trim();
+      if (!title || !content) {
+        alert("Please provide both a title and text content.");
+        return;
+      }
+
+      const btn = document.getElementById('uploadSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = `<span>Processing...</span>`;
+
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ title: title, content: content })
+        });
+        const data = await res.json();
+        closeUploadModal();
+        await refreshDocDropdown();
+        await switchDocument(data.document.id);
+      } catch (err) {
+        alert("Upload failed. Please ensure the server is running.");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>Process & Load</span>`;
+      }
+    }
+
+    function openQuestionnaireModal() { document.getElementById('questionnaireModal').classList.remove('hidden'); }
+    function closeQuestionnaireModal() { document.getElementById('questionnaireModal').classList.add('hidden'); }
+
+    function loadSampleQuestions() {
+      const sample = [
+        "What encryption standards are enforced for data at rest and data in transit?",
+        "Is Multi-Factor Authentication (MFA) required for all administrative access?",
+        "What is the maximum time window for critical security incident notification?",
+        "How long are compliance and audit records retained upon termination?",
+        "Are deprecated TLS versions 1.0 and 1.1 disabled at the network layer?",
+        "What hardware key requirements exist for direct SSH cluster access?"
+      ];
+      document.getElementById('questionnaireInput').value = sample.join("\n");
+    }
+
+    async function runQuestionnaireAutoFill() {
+      const input = document.getElementById('questionnaireInput').value.trim();
+      if (!input) {
+        alert("Please enter at least one question.");
+        return;
+      }
+      const questions = input.split("\n").map(q => q.trim()).filter(q => q.length > 5);
+      const btn = document.getElementById('autoFillBtn');
+      btn.disabled = true;
+      btn.innerText = "Processing...";
+
+      try {
+        const res = await fetch('/api/questionnaire', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ questions: questions, document_id: "doc_soc2_02" })
+        });
+        const results = await res.json();
+        lastQuestionnaireResults = results;
+
+        const tbody = document.getElementById('questionnaireTableBody');
+        tbody.innerHTML = results.map(r => `
+          <tr class="hover:bg-slate-800/50 transition">
+            <td class="p-3.5 font-semibold text-slate-200">${r.question}</td>
+            <td class="p-3.5 text-slate-300 leading-relaxed">${r.answer.replace(/\*\*/g, '')}</td>
+            <td class="p-3.5 font-mono text-amber-400 text-[11px] font-medium">${r.citation}</td>
+          </tr>
+        `).join('');
+
+        document.getElementById('questionnaireResultsArea').classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "⚡ Run AI Auto-Fill";
+      }
+    }
+
+    function exportQuestionnaireCSV() {
+      if (!lastQuestionnaireResults || lastQuestionnaireResults.length === 0) return;
+      let csv = "Question,Verified Answer,Cited Source\n";
+      lastQuestionnaireResults.forEach(r => {
+        const cleanAnswer = r.answer.replace(/[\n\r]+/g, ' ').replace(/"/g, '""');
+        csv += `"${r.question}","${cleanAnswer}","${r.citation}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'Verified_Security_Questionnaire_Answers.csv');
+      a.click();
+    }
+
+    async function openAuditModal() {
+      document.getElementById('auditModal').classList.remove('hidden');
+      const tbody = document.getElementById('auditTableBody');
+      tbody.innerHTML = '<tr><td colspan="5" class="p-5 text-center text-slate-500">Loading audit records...</td></tr>';
+
+      try {
+        const res = await fetch('/api/audit-logs', { headers: getAuthHeaders() });
+        const logs = await res.json();
+        document.getElementById('auditCount').innerText = logs.length;
+        if (logs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="p-5 text-center text-slate-500">No audit logs recorded yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = logs.map(l => {
+          const clauseName = l.citations && l.citations.length > 0 ? `${l.citations[0].clause} (P.${l.citations[0].page})` : 'None';
+          return `
+            <tr class="hover:bg-slate-800/40 transition">
+              <td class="p-3.5 text-slate-400">${new Date(l.timestamp).toLocaleTimeString()}</td>
+              <td class="p-3.5 font-semibold text-slate-300">${l.user_name}</td>
+              <td class="p-3.5 text-slate-200 max-w-xs truncate" title="${l.query}">${l.query}</td>
+              <td class="p-3.5 text-amber-400">${clauseName}</td>
+              <td class="p-3.5">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${l.verified_match ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/15 text-red-400 border border-red-500/30'}">
+                  ${l.verified_match ? 'VERIFIED' : 'NOT FOUND'}
+                </span>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="5" class="p-5 text-center text-red-400">Failed to load audit records.</td></tr>';
+      }
+    }
+    function closeAuditModal() { document.getElementById('auditModal').classList.add('hidden'); }
+
+    // Header More Tools Dropdown
+    function toggleMoreMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('moreMenuDropdown');
+      menu.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('moreMenuDropdown');
+      if (menu && !menu.classList.contains('hidden') && !e.target.closest('#moreMenuDropdown')) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    // Cloud Storage Handlers
+    let currentCloudProvider = "gdrive";
+    let cloudData = null;
+
+    async function openCloudModal() {
+      document.getElementById('cloudModal').classList.remove('hidden');
+      try {
+        const res = await fetch('/api/integrations/cloud-drives', { headers: getAuthHeaders() });
+        cloudData = await res.json();
+        renderCloudDriveFiles();
+      } catch (err) {
+        console.error("Cloud drives fetch error:", err);
+      }
+    }
+    function closeCloudModal() { document.getElementById('cloudModal').classList.add('hidden'); }
+
+    function selectDriveTab(provider) {
+      currentCloudProvider = provider;
+      document.getElementById('tabGDrive').className = provider === 'gdrive' 
+        ? "p-3.5 rounded-2xl border-2 border-amber-400/80 bg-slate-900/90 cursor-pointer transition flex items-center space-x-3"
+        : "p-3.5 rounded-2xl border border-slate-700/80 bg-slate-900/50 hover:bg-slate-900 cursor-pointer transition flex items-center space-x-3";
+      document.getElementById('tabSharepoint').className = provider === 'sharepoint' 
+        ? "p-3.5 rounded-2xl border-2 border-amber-400/80 bg-slate-900/90 cursor-pointer transition flex items-center space-x-3"
+        : "p-3.5 rounded-2xl border border-slate-700/80 bg-slate-900/50 hover:bg-slate-900 cursor-pointer transition flex items-center space-x-3";
+      renderCloudDriveFiles();
+    }
+
+    function renderCloudDriveFiles() {
+      if (!cloudData || !cloudData[currentCloudProvider]) return;
+      const folder = cloudData[currentCloudProvider].folders[0];
+      document.getElementById('cloudFolderName').innerText = `Folder: ${folder.folder_name}`;
+      document.getElementById('cloudFileCount').innerText = `${folder.files.length} Contracts Available`;
+
+      const listEl = document.getElementById('cloudFileList');
+      listEl.innerHTML = folder.files.map(f => `
+        <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/80 border border-white/[0.04]">
+          <div class="flex items-center space-x-2.5 truncate">
+            <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            <span class="text-slate-200 truncate font-medium">${f.name}</span>
+          </div>
+          <div class="flex items-center space-x-2 shrink-0">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">${f.type}</span>
+            <span class="text-[10px] text-slate-500 font-mono">${f.size}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function executeCloudSync() {
+      const btn = document.getElementById('cloudSyncBtn');
+      btn.disabled = true;
+      btn.innerText = "Syncing & Ingesting...";
+
+      try {
+        const res = await fetch('/api/integrations/cloud-sync', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ provider: currentCloudProvider, folder_index: 0 })
+        });
+        const data = await res.json();
+        closeCloudModal();
+        await refreshDocDropdown();
+        alert(`Successfully synced ${data.synced_count} contracts from ${currentCloudProvider.toUpperCase()} into your workspace!`);
+      } catch (err) {
+        alert("Cloud sync failed. Verify server connection.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Sync & Ingest Folder";
+      }
+    }
+
+    // Slack Bot Simulator Handlers
+    function openSlackModal() { document.getElementById('slackModal').classList.remove('hidden'); }
+    function closeSlackModal() { document.getElementById('slackModal').classList.add('hidden'); }
+
+    async function runSlackSimulator() {
+      const query = document.getElementById('slackInput').value.trim();
+      if (!query) return;
+
+      const outputArea = document.getElementById('slackOutputArea');
+      outputArea.innerHTML = '<span class="text-slate-400 animate-pulse">Querying verified knowledge base...</span>';
+
+      try {
+        const res = await fetch('/api/integrations/slack/command', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ command: "/clauseverify", text: query, document_id: currentDocId })
+        });
+        const data = await res.json();
+
+        const blocks = data.blocks;
+        const findingBlock = blocks.find(b => b.text && b.text.text && b.text.text.includes("*Finding:*"));
+        const contextBlock = blocks.find(b => b.type === "context");
+
+        let findingText = findingBlock ? findingBlock.text.text : "Verified Finding";
+        let contextText = contextBlock ? contextBlock.elements[0].text : "";
+
+        outputArea.innerHTML = `
+          <div class="p-3 rounded-xl bg-slate-900 border border-slate-700/60 space-y-2">
+            <div class="text-amber-400 font-bold text-xs">⚡ Verified Contract Finding</div>
+            <div class="text-slate-200 text-xs leading-relaxed">${findingText.replace(/\*Finding:\*\n/, '').replace(/\*\*/g, '')}</div>
+            <div class="text-[11px] font-mono text-emerald-400 pt-1 border-t border-slate-800">${contextText.replace(/\*/g, '')}</div>
+          </div>
+          <button onclick="closeSlackModal()" class="mt-2 px-3 py-1 bg-amber-500 text-slate-950 font-bold text-xs rounded hover:bg-amber-400 transition">
+            View Yellow Highlight in Web App ↗
+          </button>
+        `;
+      } catch (err) {
+        outputArea.innerHTML = '<span class="text-red-400">Failed to communicate with Slack integration API.</span>';
+      }
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
