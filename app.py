@@ -370,6 +370,105 @@ async def get_audit_logs(current_user: Dict[str, Any] = Depends(get_current_user
     return rows
 
 # -------------------------------------------------------------
+# Billing & Pricing Plans
+# -------------------------------------------------------------
+class SubscribeRequest(BaseModel):
+    plan_id: str
+    billing_cycle: str = "monthly"
+
+@app.get("/api/billing/plans")
+async def get_plans(current_user: Dict[str, Any] = Depends(get_current_user)):
+    """Returns available subscription tiers and active workspace plan."""
+    plans = [
+        {
+            "id": "starter",
+            "name": "Starter",
+            "tagline": "Ideal for seed/early-stage startups & boutique firms.",
+            "monthly_price": 299,
+            "annual_price": 239,
+            "features": [
+                "Up to 150 Active Contracts",
+                "5 Team Seats",
+                "Zero-Hallucination Visual Citations",
+                "Amendment Drift Alerts",
+                "Standard Audit Trail"
+            ],
+            "cta": "Start 14-Day Free Trial",
+            "popular": False
+        },
+        {
+            "id": "growth",
+            "name": "Growth",
+            "tagline": "For scaling B2B SaaS teams & compliance officers.",
+            "monthly_price": 799,
+            "annual_price": 639,
+            "features": [
+                "Unlimited Contracts & Policies",
+                "15 Team Seats",
+                "⚡ 1-Click Questionnaire Auto-Filler (CSV Export)",
+                "Google Drive & SharePoint Sync",
+                "Slack Bot Integration (/clauseverify)",
+                "Immutable SOC 2 / ISO Audit Ledger",
+                "Priority Email & Slack Support"
+            ],
+            "cta": "Upgrade to Growth",
+            "popular": True
+        },
+        {
+            "id": "enterprise",
+            "name": "Enterprise",
+            "tagline": "For FinTech, HealthTech, and regulated enterprises.",
+            "monthly_price": 1999,
+            "annual_price": 1599,
+            "features": [
+                "Everything in Growth",
+                "Dedicated VPC / Isolated DB Tenant",
+                "SAML 2.0 / Okta SSO & SCIM Directory",
+                "Custom Scanned OCR Pipeline",
+                "99.9% Uptime SLA Guarantee",
+                "Dedicated Compliance Architect"
+            ],
+            "cta": "Contact Enterprise Sales",
+            "popular": False
+        }
+    ]
+    return {
+        "plans": plans,
+        "current_plan": "growth",
+        "billing_cycle": "monthly",
+        "trial_days_remaining": 14
+    }
+
+@app.post("/api/billing/subscribe")
+async def update_subscription(req: SubscribeRequest, current_user: Dict[str, Any] = Depends(get_current_user)):
+    """Simulates upgrading or subscribing to a plan."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    log_id = str(uuid.uuid4())
+    cursor.execute("""
+    INSERT INTO audit_logs (id, workspace_id, user_name, query, document_id, answer, citations, verified_match, timestamp)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        log_id,
+        current_user["workspace_id"],
+        current_user["full_name"],
+        f"Billing Plan Update: Switched to {req.plan_id.upper()} ({req.billing_cycle})",
+        "billing_system",
+        f"Workspace {current_user['workspace_name']} upgraded subscription tier to {req.plan_id.capitalize()}.",
+        json.dumps([]),
+        1,
+        datetime.utcnow().isoformat() + "Z"
+    ))
+    conn.commit()
+    conn.close()
+    return {
+        "success": True,
+        "plan_id": req.plan_id,
+        "billing_cycle": req.billing_cycle,
+        "message": f"Successfully activated {req.plan_id.capitalize()} Plan for {current_user['workspace_name']}!"
+    }
+
+# -------------------------------------------------------------
 # Static Web App Mount
 # -------------------------------------------------------------
 @app.get("/", response_class=HTMLResponse)
