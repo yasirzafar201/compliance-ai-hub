@@ -101,18 +101,18 @@
   <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
   <!-- TOP NAVIGATION BAR -->
-  <header class="h-16 glass-panel border-b border-white/[0.08] px-6 flex items-center justify-between shrink-0 z-30">
+  <header class="h-16 glass-panel border-b border-white/[0.08] px-3 sm:px-6 flex items-center justify-between shrink-0 z-30 gap-2">
     
     <!-- Logo & Brand (Clean & Spacious) -->
-    <div class="flex items-center space-x-3">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-amber-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25 border border-white/20 shrink-0">
-        <span class="text-lg leading-none">§</span>
+    <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
+      <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-amber-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25 border border-white/20 shrink-0">
+        <span class="text-base sm:text-lg leading-none">§</span>
       </div>
-      <div class="flex items-center space-x-2">
-        <span class="font-extrabold text-base tracking-tight text-white">
+      <div class="flex items-center space-x-1.5 sm:space-x-2">
+        <span class="font-extrabold text-sm sm:text-base tracking-tight text-white">
           ClauseVerify<span class="text-amber-400">.ai</span>
         </span>
-        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold flex items-center space-x-1">
+        <span class="hidden md:flex text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold items-center space-x-1">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span>Zero-Hallucination</span>
         </span>
@@ -120,9 +120,9 @@
     </div>
 
     <!-- Center Document Selector (Compact & Truncated) -->
-    <div class="flex items-center space-x-2 bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-1.5 shadow-inner max-w-xs truncate">
+    <div class="flex items-center space-x-1.5 sm:space-x-2 bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 py-1.5 shadow-inner min-w-0 max-w-[150px] sm:max-w-xs shrink">
       <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-      <select id="docSelect" onchange="switchDocument(this.value)" class="bg-transparent text-slate-200 text-xs font-semibold focus:outline-none cursor-pointer pr-2 truncate max-w-[200px]">
+      <select id="docSelect" onchange="switchDocument(this.value)" class="bg-transparent text-slate-200 text-xs font-semibold focus:outline-none cursor-pointer pr-1 truncate w-full min-w-0">
         <option value="doc_msa_01" class="bg-slate-900 text-slate-200">Acme Corp Master Services Agreement (MSA)</option>
         <option value="doc_soc2_02" class="bg-slate-900 text-slate-200">CloudTrust SOC 2 Type II Security Report</option>
       </select>
@@ -201,10 +201,10 @@
       
       <!-- Sub-header metadata pill -->
       <div class="px-5 py-2.5 bg-slate-950/60 border-b border-white/[0.06] flex items-center justify-between text-xs font-medium">
-        <div class="flex items-center space-x-2">
-          <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
-          <span class="text-slate-400">Context:</span>
-          <span id="metaDocTitle" class="text-slate-100 font-semibold truncate max-w-sm">Loading...</span>
+        <div class="flex items-center space-x-2 min-w-0 mr-2">
+          <span class="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+          <span class="text-slate-400 shrink-0">Context:</span>
+          <span id="metaDocTitle" class="text-slate-100 font-semibold truncate max-w-[130px] sm:max-w-xs md:max-w-sm">Loading...</span>
         </div>
         <div class="flex items-center space-x-3 text-slate-400 text-[11px]">
           <span id="metaEffectiveDate">Oct 2024</span>
